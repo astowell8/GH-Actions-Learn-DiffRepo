@@ -14,6 +14,7 @@ jobs:
       - name: Delete everything except .github
         shell: pwsh
         run: |
+          #Make sure the git and github folders do NOT get deleted.
           Get-ChildItem -Path . -Recurse -Force |
           Where-Object {
             $_.FullName -notmatch '\\.github($|\\)' -and

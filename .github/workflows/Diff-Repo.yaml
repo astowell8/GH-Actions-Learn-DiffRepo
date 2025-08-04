@@ -11,6 +11,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Debug Token Use (safe)
+        run: echo "Token length: ${{ secrets.PAT_GH_DIFFREPO != '' && 'set' || 'empty' }}"
+
       - name: Delete everything except .github
         shell: pwsh
         run: |

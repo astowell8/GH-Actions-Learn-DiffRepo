@@ -14,19 +14,12 @@ jobs:
       - name: Delete everything except .github
         shell: pwsh
         run: |
-          #Make sure the git and github folders do NOT get deleted.
-          Get-ChildItem -Path . -Recurse -Force |
-          Where-Object {
-            $_.FullName -notmatch '\\.github($|\\)' -and
-            $_.FullName -notmatch '\\.git($|\\)'
-          } |
-          ForEach-Object {
-            if ($_.PSIsContainer) {
-              Remove-Item $_.FullName -Recurse -Force -ErrorAction SilentlyContinue
-            } else {
-              Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
-            }
-          }
+          Get-ChildItem | 
+              Where-Object { $_.Name.ToUpper() -notin '.GITHUB', '.GIT' } |
+              ForEach-Object {
+                  Write-Host $("Removing: " + $_.FullName)
+                  Remove-Item -Path $_.FullName -Recurse -Force
+              }
 
       - name: Commit and Push Changes
         shell: pwsh
@@ -34,7 +27,7 @@ jobs:
           git config user.name "astowell8"
           git config user.email "astowell8@hotmail.com"
           git add -A
-          #git add .
-          git commit -m "Deleted all files except .github"
-          git push
+          git commit -m "Deleted all files except .github" || echo "Nothing to commit"
+          git push "https://x-access-token:${{ secrets.PAT_GH_DIFFREPO }}@github.com/${{ github.GH-Actions-Learn-DiffRepo }}.git"
+
         

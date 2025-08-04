@@ -1,4 +1,4 @@
-name: Delete Files Except .github
+name: Delete Files From Repo
 
 on:
   workflow_dispatch:  # manually triggered

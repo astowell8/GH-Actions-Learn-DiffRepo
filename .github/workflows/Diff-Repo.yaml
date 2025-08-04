@@ -1,0 +1,39 @@
+name: Delete Files Except .github
+
+on:
+  workflow_dispatch:  # manually triggered
+
+jobs:
+  clean-repo:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Delete everything except .github
+        shell: pwsh
+        run: |
+          Get-ChildItem -Path . -Recurse -Force |
+          Where-Object {
+            $_.FullName -notmatch '\\.github($|\\)' -and
+            $_.FullName -notmatch '\\.git($|\\)'
+          } |
+          ForEach-Object {
+            if ($_.PSIsContainer) {
+              Remove-Item $_.FullName -Recurse -Force -ErrorAction SilentlyContinue
+            } else {
+              Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
+            }
+          }
+
+      - name: Commit and Push Changes
+        shell: pwsh
+        run: |
+          #git config user.name "github-actions"
+          #git config user.email "github-actions@github.com"
+          #git add -A
+          git add .
+          git commit -m "Deleted all files except .github"
+          git push
+        

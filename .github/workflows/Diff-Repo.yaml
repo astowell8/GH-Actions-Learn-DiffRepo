@@ -31,10 +31,10 @@ jobs:
       - name: Commit and Push Changes
         shell: pwsh
         run: |
-          #git config user.name "github-actions"
-          #git config user.email "github-actions@github.com"
-          #git add -A
-          git add .
+          git config user.name "astowell8"
+          git config user.email "astowell8@hotmail.com"
+          git add -A
+          #git add .
           git commit -m "Deleted all files except .github"
           git push
         

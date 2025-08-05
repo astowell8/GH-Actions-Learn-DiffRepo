@@ -43,16 +43,17 @@ jobs:
         shell: cmd
         run: | 
           cd source-repo
+          echo source repo root contents
           dir
 
       - name: Get Release SHA
         shell: pwsh
-        run: |
-           Get-Childitem 
-#          #Script Configuration.
-#          $ReleaseBranch = 'main' 
-#          git fetch --all --tags 
-#          git pull           
+        run: |           
+           Set-Location source-repo
+           $ReleaseBranch = 'main' 
+           git checkout main
+           git fetch --all --tags 
+           git pull           
 #          $currentBranch = git rev-parse --abbrev-ref HEAD
 #          # Check if the branch is 'main' 
 #          if ($currentBranch -ne 'main') {

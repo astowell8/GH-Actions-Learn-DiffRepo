@@ -51,7 +51,7 @@ jobs:
           } else {
               Write-Host "Current branch ($currentBranch) is the designated release branch. Continueing ... " -ForegroundColor Green
           }
-          $tags = git tag --list "$TagPrefix[0-9]*.[0-9]*.[0-9]*" 
+          $tags = ( git tag --list "$Release_v[0-9]*.[0-9]*.[0-9]*" )
           Write-Host  $tags
           Write-Host ("Length: " + $tags.length)
           #$SortedTags = @()          

@@ -44,11 +44,11 @@ jobs:
         run: | 
           cd source-repo
           dir
-#
-#      - name: Get Release SHA
-#        shell: pwsh
-#        run: |
-#          cd GH-Actions-Learn        
+
+      - name: Get Release SHA
+        shell: pwsh
+        run: |
+           Get-Childitem 
 #          #Script Configuration.
 #          $ReleaseBranch = 'main' 
 #          git fetch --all --tags 

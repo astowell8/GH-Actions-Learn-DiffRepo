@@ -37,31 +37,37 @@ jobs:
 
       - name: Clone other repo
         shell: pwsh
-        run: |        
-          git clone https://x-access-token:${{ secrets.PAT_GH_DIFFREPO }}@github.com/astowell8/GH-Actions-Learn.git #other-repo
-          cd GH-Actions-Learn        
-          #Script Configuration.
-          $ReleaseBranch = 'main' 
-          git fetch --all --tags 
-          git pull           
-          $currentBranch = git rev-parse --abbrev-ref HEAD
-          # Check if the branch is 'main' 
-          if ($currentBranch -ne 'main') {
-              Write-Host "Error: Release tags should be only published on 'main' branch." -ForegroundColor Red
-              exit 1
-          } else {
-              Write-Host "Current branch ($currentBranch) is the designated release branch. Continueing ... " -ForegroundColor Green
-          }
-          $tags = ( git tag --list "Release_v[0-9]*.[0-9]*.[0-9]*" )
-          Write-Host  $tags
-          Write-Host ("Length: " + $tags.length)
-          #$SortedTags = @()          
-          #$SortedTags = $tags | Sort-Object -Descending  
-          #$release = git rev-parse $SortedTags[0]
-          #$previous = git rev-parse $SortedTags[1]
-          #"release_sha=$release" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          #"previous_sha=$previous" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+        run: git clone https://x-access-token:${{ secrets.PAT_GH_DIFFREPO }}@github.com/astowell8/GH-Actions-Learn.git #other-repo
 
+#      - name: Show Contents
+#        run: dir
+#
+#      - name: Get Release SHA
+#        shell: pwsh
+#        run: |
+#          cd GH-Actions-Learn        
+#          #Script Configuration.
+#          $ReleaseBranch = 'main' 
+#          git fetch --all --tags 
+#          git pull           
+#          $currentBranch = git rev-parse --abbrev-ref HEAD
+#          # Check if the branch is 'main' 
+#          if ($currentBranch -ne 'main') {
+#              Write-Host "Error: Release tags should be only published on 'main' branch." -ForegroundColor Red
+#              exit 1
+#          } else {
+#              Write-Host "Current branch ($currentBranch) is the designated release branch. Continueing ... " -ForegroundColor Green
+#          }
+#          $tags = ( git tag --list "Release_v[0-9]*.[0-9]*.[0-9]*" )
+#          Write-Host  $tags
+#          Write-Host ("Length: " + $tags.length)
+#          #$SortedTags = @()          
+#          #$SortedTags = $tags | Sort-Object -Descending  
+#          #$release = git rev-parse $SortedTags[0]
+#          #$previous = git rev-parse $SortedTags[1]
+#          #"release_sha=$release" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+#          #"previous_sha=$previous" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+#
       - name: Use the SHAs
         shell: pwsh
         run: |

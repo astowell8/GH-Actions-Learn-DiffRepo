@@ -40,8 +40,10 @@ jobs:
         run: git clone https://x-access-token:${{ secrets.PAT_GH_DIFFREPO }}@github.com/astowell8/GH-Actions-Learn.git source-repo
 
       - name: Show Contents
-        run: cd source-repo
-             dir
+        shell: cmd
+        run: | 
+          cd source-repo
+          dir
 #
 #      - name: Get Release SHA
 #        shell: pwsh

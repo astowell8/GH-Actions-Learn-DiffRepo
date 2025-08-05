@@ -87,3 +87,20 @@ jobs:
         run: |
           Write-Host "Release SHA: ${{ steps.release_sha.outputs.release_sha }}"
           Write-Host "Previous SHA: ${{ steps.release_sha.outputs.previous_sha }}"          
+
+      - name: Get Diff Files
+        id: diff_files
+        shell: pwsh
+        run : |
+          Set-Location source-repo          
+          git checkout main
+          $Files = (git diff --name-only ${{ steps.release_sha.outputs.release_sha }} ${{ steps.release_sha.outputs.previous_sha }} )
+          $FileString = $Files -join ';'
+          "FileString=FileString" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+      
+      - name: Checkout files from previous release
+        shell: pwsh
+        run: |
+          $FileString = ${{ steps.diff_files.outputs.FileString }}
+          $files = $FileString -split ';'
+          foreach($file in $files){ write-host $file}

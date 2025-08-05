@@ -96,7 +96,7 @@ jobs:
           git checkout main
           $Files = (git diff --name-only ${{ steps.release_sha.outputs.release_sha }} ${{ steps.release_sha.outputs.previous_sha }} )
           $FileString = $Files -join ';'
-          "FileString=FileString" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "FileString=$FileString" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
       
       - name: Checkout files from previous release
         shell: pwsh

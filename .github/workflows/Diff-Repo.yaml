@@ -54,6 +54,7 @@ jobs:
           git tag
 
       - name: Get Release SHA
+        id: release_sha      
         shell: pwsh
         run: |           
            Set-Location source-repo
@@ -87,5 +88,5 @@ jobs:
       - name: Use the SHAs
         shell: pwsh
         run: |
-          Write-Host "Release SHA: ${{ steps.get_release_sha.outputs.release_sha }}"
-          Write-Host "Previous SHA: ${{ steps.sha_step.outputs.previous_sha }}"          
+          Write-Host "Release SHA: ${{ steps.release_sha.outputs.release_sha }}"
+          Write-Host "Previous SHA: ${{ steps.release_step.outputs.previous_sha }}"          

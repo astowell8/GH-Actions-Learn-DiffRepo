@@ -101,6 +101,6 @@ jobs:
       - name: Checkout files from previous release
         shell: pwsh
         run: |
-          $FileString = ${{ steps.diff_files.outputs.FileString }}
+          $FileString = "${{ steps.diff_files.outputs.FileString }}"
           $files = $FileString -split ';'
           foreach($file in $files){ write-host $file}

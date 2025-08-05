@@ -37,10 +37,11 @@ jobs:
 
       - name: Clone other repo
         shell: pwsh
-        run: git clone https://x-access-token:${{ secrets.PAT_GH_DIFFREPO }}@github.com/astowell8/GH-Actions-Learn.git #other-repo
+        run: git clone https://x-access-token:${{ secrets.PAT_GH_DIFFREPO }}@github.com/astowell8/GH-Actions-Learn.git source-repo
 
-#      - name: Show Contents
-#        run: dir
+      - name: Show Contents
+        run: cd source-repo
+             dir
 #
 #      - name: Get Release SHA
 #        shell: pwsh

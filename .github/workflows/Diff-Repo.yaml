@@ -46,6 +46,10 @@ jobs:
           echo source repo root contents
           dir
 
+      - name: Show Tags
+        shell: cmd
+        run: git tag
+
       - name: Get Release SHA
         shell: pwsh
         run: |           

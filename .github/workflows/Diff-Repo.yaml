@@ -81,11 +81,11 @@ jobs:
            "previous_sha=$previous" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
            write-Host "Contents:"
            write-Host $SortedTags
-           Write-Host ("Release " + $release)
-           Write-Host ("previous " + $release)           
+           Write-Host ("Release SHA " + $release)
+           Write-Host ("Previous SHA " + $release)           
 #
       - name: Use the SHAs
         shell: pwsh
         run: |
-          Write-Host "Release SHA: ${{ steps.sha_step.outputs.release_sha }}"
+          Write-Host "Release SHA: ${{ steps.get_release_sha.outputs.release_sha }}"
           Write-Host "Previous SHA: ${{ steps.sha_step.outputs.previous_sha }}"          

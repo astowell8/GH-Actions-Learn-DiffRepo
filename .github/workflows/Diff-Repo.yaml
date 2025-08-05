@@ -74,11 +74,15 @@ jobs:
            #Write-Host $tags
            #Write-Host ("Length: " + $tags.length)
            $SortedTags = @()          
-           $SortedTags = $tags | Sort-Object -Descending  
+           $SortedTags = $tags | Sort-Object -Descending             
            $release = git rev-parse $SortedTags[0]
            $previous = git rev-parse $SortedTags[1]
            "release_sha=$release" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
            "previous_sha=$previous" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+           write-Host "Contents:"
+           write-Host $SortedTags
+           Write-Host ("Release " + $release)
+           Write-Host ("previous " + $release)           
 #
       - name: Use the SHAs
         shell: pwsh

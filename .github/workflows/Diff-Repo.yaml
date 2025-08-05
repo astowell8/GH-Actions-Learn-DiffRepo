@@ -48,7 +48,9 @@ jobs:
 
       - name: Show Tags
         shell: cmd
-        run: git tag
+        run: |
+          cd source-repo
+          git tag
 
       - name: Get Release SHA
         shell: pwsh

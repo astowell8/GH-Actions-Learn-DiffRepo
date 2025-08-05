@@ -35,4 +35,28 @@ jobs:
           git commit -m "Deleted all files except .github" || echo "Nothing to commit"
           git push "https://x-access-token:${{ secrets.PAT_GH_DIFFREPO }}@github.com/${{ github.repository }}.git"
 
-        
+      - name: Clone other repo
+        shell: pwsh
+        run: |        
+          git clone https://x-access-token:${{ secrets.PAT_GH_DIFFREPO }}@github.com/astowell8/GH-Actions-Learn.git other-repo
+          cd GH-Actions-Learn        
+          #Script Configuration.
+          $ReleaseBranch = 'main' 
+          $TagPrefix = 'Release_v' #Prefix used to identify Release tags.        
+          $currentBranch = git rev-parse --abbrev-ref HEAD
+          # Check if the branch is 'main' 
+          if ($currentBranch -ne 'main') {
+              Write-Host "Error: Release tags should be only published on 'main' branch." -ForegroundColor Red
+              exit 1
+          } else {
+              Write-Host "Current branch ($currentBranch) is the designated release branch. Continueing ... " -ForegroundColor Green
+          }
+          $tags = git tag --list "$TagPrefix[0-9]*.[0-9]*.[0-9]*"   
+          $SortedTags = @()          
+          $tags | ForEach-Object {
+              $SortedTags += [string]( $_.replace($TagPrefix,'' ) )
+          } 
+          $SortedTags = $SortedTags | Sort-Object -Descending  
+          #git fetch --all
+          #git checkout ${{ github.event.inputs.commit_sha }}
+          Write-Host $SortedTags        

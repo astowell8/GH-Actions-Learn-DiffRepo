@@ -38,7 +38,7 @@ jobs:
       - name: Clone other repo
         shell: pwsh
         run: |        
-          git clone https://x-access-token:${{ secrets.PAT_GH_DIFFREPO }}@github.com/astowell8/GH-Actions-Learn.git other-repo
+          git clone https://x-access-token:${{ secrets.PAT_GH_DIFFREPO }}@github.com/astowell8/GH-Actions-Learn.git #other-repo
           cd GH-Actions-Learn        
           #Script Configuration.
           $ReleaseBranch = 'main' 

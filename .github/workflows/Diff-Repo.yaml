@@ -104,3 +104,44 @@ jobs:
           $FileString = "${{ steps.diff_files.outputs.FileString }}"
           $files = $FileString -split ';'
           foreach($file in $files){ write-host $file}
+
+      - name: Commit Release Files
+        shell: pwsh
+        run: |
+          $ReleaseCommit  = "${{ steps.release_sha.outputs.release_sha }}"
+          $PreviousCommit = "${{ steps.release_sha.outputs.previous_sha }}"
+          $FileString     = "${{ steps.diff_files.outputs.FileString }}"
+          $FileList = $FileString -split ';'
+
+          Set-Location source-repo  
+
+          # Step 1: Checkout the previous release
+          git fetch --all
+          git checkout $oldCommit
+      
+          foreach ($file in $fileList) {
+            $sourcePath = Join-Path -Path "." -ChildPath $file
+            $destPath = Join-Path -Path ".." -ChildPath $file
+            Write-Host "Copying OLD: $sourcePath -> $destPath"
+            New-Item -ItemType Directory -Force -Path (Split-Path $destPath) | Out-Null
+            Copy-Item -Path $sourcePath -Destination $destPath -Force
+          }
+      
+          # Step 2: Checkout the new release
+          git checkout $newCommit
+      
+          foreach ($file in $FileList) {
+            $sourcePath = Join-Path -Path "." -ChildPath $file
+            $destPath = Join-Path -Path ".." -ChildPath $file
+            Write-Host "Overwriting with NEW: $sourcePath -> $destPath"
+            Copy-Item -Path $sourcePath -Destination $destPath -Force
+          }         
+
+      - name: Commit Changes to Diff Repo
+        shell: pwsh
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add .
+          git commit -m "Synced files from source repo diff"
+          git push
